@@ -54,8 +54,8 @@ class _ProfilState extends State<Profil> {
         children: [
           Container(
             margin: EdgeInsets.all(15),
-            width: 130,
-            height: 130,
+            width: MediaQuery.of(context).size.width / 4,
+            height: MediaQuery.of(context).size.height / 5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.white,
@@ -86,6 +86,7 @@ class _ProfilState extends State<Profil> {
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
+                  softWrap: true,
                 ),
                 Text(
                   "Web Programmer",

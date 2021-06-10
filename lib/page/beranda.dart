@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:listproject/api.dart';
 import 'package:listproject/bloc/blocfinis.dart';
 import 'package:listproject/bloc/blocproses.dart';
@@ -49,38 +50,48 @@ class _BerandaState extends State<Beranda> {
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width / 1,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "PROJECT",
+            "Project",
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
-              color: Colors.blue,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: Colors.blue,
+                fontFamily: 'PoppinsMedium'),
           ),
           Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width / 2.3,
-            child: TextFormField(
+            height: 40,
+            width: MediaQuery.of(context).size.width / 2.4,
+            child: TextField(
+              style: TextStyle(fontSize: 14.0, fontFamily: 'Poppins'),
+              autofocus: false,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: HexColor("#52555A"),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                filled: true,
+                hintStyle: TextStyle(
+                    color: HexColor("#52555A"), fontFamily: 'PoppinsMedium'),
+                contentPadding: const EdgeInsets.all(10),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(25.7),
                 ),
               ),
             ),
           ),
           IconButton(
+            splashRadius: 20,
             icon: Icon(
               Icons.notifications_none_sharp,
               size: 30,
-              color: Colors.grey,
+              color: Colors.blue,
             ),
             onPressed: () {},
           )
@@ -91,9 +102,9 @@ class _BerandaState extends State<Beranda> {
 
   Widget containeruser() {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       padding: EdgeInsets.all(20),
-      height: 130,
+      height: 190,
       width: MediaQuery.of(context).size.width / 1,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -101,8 +112,8 @@ class _BerandaState extends State<Beranda> {
         boxShadow: [
           BoxShadow(
             color: const Color(0x29000000),
-            offset: Offset(0, 3),
-            blurRadius: 6,
+            offset: Offset(0, 2),
+            blurRadius: 4,
           ),
         ],
       ),
@@ -117,10 +128,10 @@ class _BerandaState extends State<Beranda> {
                   Text(
                     "$nama",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 26,
+                        fontFamily: 'PoppinsBold'),
                   ),
                   Text(
                     "$jabatan",
@@ -141,7 +152,7 @@ class _BerandaState extends State<Beranda> {
                     ),
                   ),
                   Text(
-                    "0",
+                    "13.000",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -151,20 +162,20 @@ class _BerandaState extends State<Beranda> {
               )
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 50),
           Container(
             width: MediaQuery.of(context).size.width / 1,
             height: 40,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               color: Colors.blue[50],
             ),
             child: Center(
               child: Text(
-                "Jumlah Bonus Yang Di dapat.",
+                "Jumlah Bonus Masih RP.0",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+                  color: Colors.grey[600],
                 ),
               ),
             ),
@@ -308,11 +319,11 @@ class _BerandaState extends State<Beranda> {
   Widget progresproject() {
     return Container(
       margin: EdgeInsets.only(
-        left: 10,
+        left: 25,
         right: 10,
       ),
       width: MediaQuery.of(context).size.width / 1,
-      height: 110,
+      height: 168,
       child: StreamBuilder(
         stream: blocproses.allproses,
         builder: (context, snapshot) {
@@ -332,20 +343,12 @@ class _BerandaState extends State<Beranda> {
                 itemCount: prosesdata.length,
                 itemBuilder: (context, i) {
                   return Container(
-                    height: 85,
-                    margin:
-                        EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+                    height: 120,
+                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.blue[100],
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0x29000000),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        ),
-                      ],
                     ),
                     child: Container(
                       height: 80,
