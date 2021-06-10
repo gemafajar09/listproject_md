@@ -177,4 +177,15 @@ class Api {
       print(msg);
     }
   }
+
+  Future selesaikanprojek(String idProject) async {
+    final res = await http.post('$api/projek-finish-save', body: {
+      'id_project': idProject,
+    });
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      var msg = data['pesan'];
+      print(msg);
+    }
+  }
 }

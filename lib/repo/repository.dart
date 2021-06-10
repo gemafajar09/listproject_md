@@ -13,6 +13,8 @@ class Repository {
   Future<List<Projekproses>> getproses(String id) => api.projekproses(id);
   Future<List<Progresfitur>> getprosesfitur(String id) =>
       api.getfiturprogres(id);
+  // selesaikan projek
+  Future selesaikanprojek(String idProject) => api.selesaikanprojek(idProject);
   // simpan timeline
   Future simpantimeline(String idProject, String idUser, String status) =>
       api.timelinesimpan(idProject, idUser, status);

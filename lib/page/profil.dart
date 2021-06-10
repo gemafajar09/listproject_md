@@ -7,7 +7,7 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
-  var nama, id, jabatan, foto;
+  var nama = '', id = '', jabatan = '', foto = '', alamat = '', telpon = '';
 
   var images =
       'https://www.pngfind.com/pngs/m/470-4703547_icon-user-icon-hd-png-download.png';
@@ -24,9 +24,24 @@ class _ProfilState extends State<Profil> {
       foto = preferences.getString("foto");
       nama = preferences.getString("nama");
       jabatan = preferences.getString("jabatan");
+      alamat = preferences.getString("alamat");
+      telpon = preferences.getString("telpon");
       id = preferences.getString("id");
       images = foto;
     });
+    print('alamat: ' + alamat);
+  }
+
+  void logout() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("foto", '');
+    preferences.setString("nama", '');
+    preferences.setString("jabatan", '');
+    preferences.setString("alamat", '');
+    preferences.setString("telpon", '');
+    preferences.setString("id", '');
+    preferences.commit();
+    setState(() {});
   }
 
   Widget profilfoto() {
@@ -81,7 +96,7 @@ class _ProfilState extends State<Profil> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Gema fajar Ramadhan",
+                  nama,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -89,7 +104,7 @@ class _ProfilState extends State<Profil> {
                   softWrap: true,
                 ),
                 Text(
-                  "Web Programmer",
+                  jabatan,
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -207,7 +222,7 @@ class _ProfilState extends State<Profil> {
           Padding(
             padding: EdgeInsets.all(10),
             child: Text(
-              "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+              "$alamat",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -270,7 +285,7 @@ class _ProfilState extends State<Profil> {
           Padding(
             padding: EdgeInsets.all(10),
             child: Text(
-              "082122855458",
+              "$telpon",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -305,6 +320,57 @@ class _ProfilState extends State<Profil> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  alertkeluar() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Anda yakin ingin Keluar?',
+              style: TextStyle(
+                fontFamily: 'Owsland',
+              )),
+          actions: <Widget>[
+            RaisedButton(
+                child: Text('sign out'),
+                onPressed: () {
+                  logout();
+                }),
+            RaisedButton(
+                child: Text('cancel'),
+                onPressed: () => Navigator.of(context).pop(false)),
+          ]),
+    );
+  }
+
+  Widget keluarsistem() {
+    return InkWell(
+      onTap: () {
+        alertkeluar();
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width / 1,
+        height: 40,
+        margin: EdgeInsets.only(
+          right: 20,
+          left: 20,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x29000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Icon(Icons.logout_outlined),
+        ),
       ),
     );
   }
@@ -344,6 +410,8 @@ class _ProfilState extends State<Profil> {
                     profilalamat(),
                     SizedBox(height: 10),
                     telponprofil(),
+                    SizedBox(height: 10),
+                    keluarsistem(),
                   ],
                 ),
               ),
