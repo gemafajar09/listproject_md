@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,6 +9,7 @@ import 'package:listproject/bloc/blocproses.dart';
 import 'package:listproject/bloc/blocwaiting.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Beranda extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class _BerandaState extends State<Beranda> {
   var nama;
   var jabatan;
   var id;
+  var bonus = '0';
   Api api = Api();
   Timer timer;
 
@@ -36,6 +39,16 @@ class _BerandaState extends State<Beranda> {
     super.dispose();
   }
 
+  getbonus(id) async {
+    final res = await http.get(Api.api + "/total-bonus/" + id);
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      setState(() {
+        bonus = data['bonus'];
+      });
+    }
+  }
+
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -43,6 +56,7 @@ class _BerandaState extends State<Beranda> {
       jabatan = preferences.getString("jabatan");
       id = preferences.getString("id");
       blocfinis.tampil(id);
+      getbonus(id);
     });
   }
 
@@ -152,7 +166,7 @@ class _BerandaState extends State<Beranda> {
                     ),
                   ),
                   Text(
-                    "13.000",
+                    bonus,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -172,7 +186,7 @@ class _BerandaState extends State<Beranda> {
             ),
             child: Center(
               child: Text(
-                "Jumlah Bonus Masih RP.0",
+                "Jumlah Bonus Masih RP." + bonus,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[600],

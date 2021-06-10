@@ -14,6 +14,11 @@ class Blocproses {
     _getproses.sink.add(_proses);
   }
 
+  // selesaikan projek
+  selesaikan(String idProject) {
+    repository.selesaikanprojek(idProject);
+  }
+
   // matikan aksi
   dispose() {
     _getproses.close();

@@ -37,9 +37,11 @@ class _LoginState extends State<Login> {
       var foto = data['foto'];
       var nama = data['nama'];
       var jabatan = data['jabatan'];
+      var alamat = data['alamat'];
+      var telpon = data['telpon'];
       var id = data['id_user'];
       if (id != null) {
-        savePref(foto, nama, jabatan, id.toString());
+        savePref(foto, nama, jabatan, id.toString(), alamat, telpon);
         showToast('${data['message']} $nama');
         Navigator.pushReplacementNamed(context, '/splash');
       } else {
@@ -69,11 +71,14 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  void savePref(String foto, String nama, String jabatan, String id) async {
+  void savePref(String foto, String nama, String jabatan, String id,
+      String alamat, String telpon) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("foto", foto);
     preferences.setString("nama", nama);
     preferences.setString("jabatan", jabatan);
+    preferences.setString("alamat", alamat);
+    preferences.setString("telpon", telpon);
     preferences.setString("id", id);
     preferences.commit();
     setState(() {});

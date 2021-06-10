@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:listproject/api.dart';
+import 'package:listproject/bloc/blocproses.dart';
 import 'package:listproject/model/projekproses.dart';
 import 'package:listproject/model/progresfitur.dart';
+import 'package:listproject/page/home.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 
@@ -155,7 +157,15 @@ class _ProgresdetailState extends State<Progresdetail> {
                       Icons.check_circle,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        blocproses.selesaikan(model.idProject);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Home()),
+                        );
+                      });
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
