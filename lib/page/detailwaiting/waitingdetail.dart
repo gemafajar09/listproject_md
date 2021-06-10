@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:listproject/api.dart';
+import 'package:listproject/bloc/blocwaiting.dart';
 import 'package:listproject/model/progresfitur.dart';
 import 'package:listproject/model/projekwaiting.dart';
+import 'package:listproject/page/home.dart';
 import 'package:lottie/lottie.dart';
-import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Waitingdetail extends StatefulWidget {
   Waitingdetail({Key key, this.model}) : super(key: key);
@@ -16,11 +18,20 @@ class _WaitingdetailState extends State<Waitingdetail> {
   Projekwaiting model;
   Api api = Api();
   bool isSwitched = false;
+  var id;
 
   @override
   void initState() {
+    getPref();
     super.initState();
     model = widget.model;
+  }
+
+  void getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      id = preferences.getString("id");
+    });
   }
 
   Widget header() {
@@ -131,7 +142,7 @@ class _WaitingdetailState extends State<Waitingdetail> {
             right: 0,
             child: Container(
               height: 30,
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
@@ -147,12 +158,21 @@ class _WaitingdetailState extends State<Waitingdetail> {
                       Icons.check_circle,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        blocwaiting.kerjakanprojek(model.idProject, id);
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (_) => Home()));
+                      });
+                    },
                   ),
-                  Text(
-                    "Selesaikan",
-                    style: TextStyle(
-                      color: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      "Proses Aplikasi Ini.",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   )
                 ],

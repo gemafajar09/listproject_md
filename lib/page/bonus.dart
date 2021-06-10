@@ -138,7 +138,9 @@ class _BonusState extends State<Bonus> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Belum Bayar",
+                                      bonusdata[i].statusBayar == 0
+                                          ? "Belum Bayar"
+                                          : "Sudah Bayar",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.teal,

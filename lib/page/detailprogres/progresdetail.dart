@@ -157,10 +157,13 @@ class _ProgresdetailState extends State<Progresdetail> {
                     ),
                     onPressed: () {},
                   ),
-                  Text(
-                    "Selesaikan",
-                    style: TextStyle(
-                      color: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      "Selesaikan",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   )
                 ],

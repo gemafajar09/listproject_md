@@ -24,12 +24,6 @@ class _AbsensiprojekState extends State<Absensiprojek> {
 
   @override
   void initState() {
-    // timer = Timer.periodic(
-    //   Duration(milliseconds: 1000),
-    //   (timer) {
-    //     bloctimeline.tampil(iduser, idproject);
-    //   },
-    // );
     getPref();
     model = widget.model;
     super.initState();
@@ -96,8 +90,13 @@ class _AbsensiprojekState extends State<Absensiprojek> {
       children: [
         InkWell(
           onTap: () {
-            bloctimeline.addtimeline(idproject, iduser, '0');
-            setState(() {});
+            setState(() {
+              bloctimeline.addtimeline(idproject, iduser, '0');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget));
+            });
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 4.5,
@@ -121,8 +120,13 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         ),
         InkWell(
           onTap: () {
-            bloctimeline.addtimeline(idproject, iduser, '1');
-            setState(() {});
+            setState(() {
+              bloctimeline.addtimeline(idproject, iduser, '1');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget));
+            });
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 4.5,
@@ -146,8 +150,13 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         ),
         InkWell(
           onTap: () {
-            bloctimeline.addtimeline(idproject, iduser, '2');
-            setState(() {});
+            setState(() {
+              bloctimeline.addtimeline(idproject, iduser, '2');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget));
+            });
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 4.5,
@@ -171,8 +180,13 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         ),
         InkWell(
           onTap: () {
-            bloctimeline.addtimeline(idproject, iduser, '3');
-            setState(() {});
+            setState(() {
+              bloctimeline.addtimeline(idproject, iduser, '3');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget));
+            });
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 4.5,
@@ -288,7 +302,9 @@ class _AbsensiprojekState extends State<Absensiprojek> {
                                         ? Colors.yellow[200]
                                         : timelinedata[i].status == '2'
                                             ? Colors.red[200]
-                                            : Colors.green[200],
+                                            : timelinedata[i].status == '3'
+                                                ? Colors.green[200]
+                                                : Colors.green[200],
                               ),
                               child: Center(
                                 child: Text(
@@ -298,7 +314,9 @@ class _AbsensiprojekState extends State<Absensiprojek> {
                                           ? 'Izin'
                                           : timelinedata[i].status == '2'
                                               ? 'Stop'
-                                              : 'Selesai',
+                                              : timelinedata[i].status == '3'
+                                                  ? 'Selesai'
+                                                  : 'Selesai',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -321,7 +339,17 @@ class _AbsensiprojekState extends State<Absensiprojek> {
                                     size: 35,
                                     color: Colors.red[200],
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      bloctimeline.hapustimeline(
+                                          timelinedata[i].idTimeline);
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  super.widget));
+                                    });
+                                  },
                                 ),
                               ),
                             ),
