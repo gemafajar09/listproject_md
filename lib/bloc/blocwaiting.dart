@@ -7,7 +7,12 @@ class Blocwaiting {
   final _getwaiting = PublishSubject<List<Projekwaiting>>();
   Observable<List<Projekwaiting>> get allwaiting => _getwaiting.stream;
 
-// ambil semua data
+  // simpan projek yang di ambil
+  kerjakanprojek(_idprojek, _iduser) {
+    repository.simpanprojekyangdikerjakan(_idprojek, _iduser);
+  }
+
+  // ambil semua data
   tampil(String id) async {
     List<Projekwaiting> _proses = await repository.getwaiting(id);
 

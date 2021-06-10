@@ -12,6 +12,10 @@ class Bloctimeline {
     repository.simpantimeline(_idprojek, _iduser, _status);
   }
 
+  hapustimeline(_idTimeline) {
+    repository.hapustimeline(_idTimeline);
+  }
+
 // ambil semua data
   tampil(var idUser, var idProject) async {
     List<Timelineprojek> _timeline =

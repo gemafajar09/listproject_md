@@ -19,10 +19,15 @@ class Repository {
   // show timeline
   Future<List<Timelineprojek>> showtimeline(String idUser, String idProject) =>
       api.gettimeline(idUser, idProject);
+  // timeline hapus
+  Future hapustimeline(String idTimeline) => api.timelinehapus(idTimeline);
   // ambil data projek finis
   Future<List<Projekfinish>> getfinis(String id) => api.projekfinish(id);
   // ambil data projek waiting
   Future<List<Projekwaiting>> getwaiting(String id) => api.projekwaiting(id);
+  // simpan data projek yang di kerjakan
+  Future simpanprojekyangdikerjakan(String idProject, String idUser) =>
+      api.kerjakanprojek(idProject, idUser);
   // ambil data projek bonus
   Future<List<Bonusmodel>> getbonus(String id) => api.bonusdetail(id);
 }

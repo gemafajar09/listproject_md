@@ -3,7 +3,6 @@ import 'package:listproject/api.dart';
 import 'package:listproject/model/progresfitur.dart';
 import 'package:listproject/model/projekfinish.dart';
 import 'package:lottie/lottie.dart';
-import 'package:http/http.dart' as http;
 
 class Historydetail extends StatefulWidget {
   Historydetail({Key key, this.model}) : super(key: key);
@@ -131,7 +130,7 @@ class _HistorydetailState extends State<Historydetail> {
             right: 0,
             child: Container(
               height: 30,
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
@@ -149,10 +148,13 @@ class _HistorydetailState extends State<Historydetail> {
                     ),
                     onPressed: () {},
                   ),
-                  Text(
-                    "Selesaikan",
-                    style: TextStyle(
-                      color: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      "Aplikasi Selesai",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   )
                 ],

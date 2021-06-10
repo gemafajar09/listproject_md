@@ -135,6 +135,15 @@ class Api {
     }
   }
 
+  Future timelinehapus(String idTimeline) async {
+    final res = await http.get('$api/projek-timeline-hapus/' + idTimeline);
+    if (res.statusCode == 200) {
+      print('id:' + idTimeline);
+      var data = jsonDecode(res.body);
+      print(data['pesan']);
+    }
+  }
+
   Future<List<Bonusmodel>> bonusdetail(id) async {
     List<Bonusmodel> listbonus = [];
     final res = await http.get('$api/bonus-list/' + id);
@@ -146,12 +155,26 @@ class Api {
           persen: json[i]['persen'],
           namaProject: json[i]['nama_project'],
           idProject: json[i]['id_project'],
+          statusBayar: json[i]['status_bayar'],
         );
         listbonus.add(data);
       }
       return listbonus;
     } else {
       return [];
+    }
+  }
+
+  Future kerjakanprojek(String idProject, String idUser) async {
+    print('id_user:' + idUser + "id_p:" + idProject);
+    final res = await http.post('$api/proses-waiting', body: {
+      'id_project': idProject,
+      'id_user': idUser,
+    });
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      var msg = data['pesan'];
+      print(msg);
     }
   }
 }
