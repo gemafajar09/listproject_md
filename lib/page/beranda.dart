@@ -102,7 +102,7 @@ class _BerandaState extends State<Beranda> {
 
   Widget containeruser() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       padding: EdgeInsets.all(20),
       height: 190,
       width: MediaQuery.of(context).size.width / 1,
@@ -319,11 +319,11 @@ class _BerandaState extends State<Beranda> {
   Widget progresproject() {
     return Container(
       margin: EdgeInsets.only(
-        left: 25,
+        left: 10,
         right: 10,
       ),
       width: MediaQuery.of(context).size.width / 1,
-      height: 168,
+      height: 110,
       child: StreamBuilder(
         stream: blocproses.allproses,
         builder: (context, snapshot) {
@@ -344,7 +344,7 @@ class _BerandaState extends State<Beranda> {
                 itemBuilder: (context, i) {
                   return Container(
                     height: 120,
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -374,7 +374,7 @@ class _BerandaState extends State<Beranda> {
                               prosesdata[i].judul,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Owsland',
+                                fontFamily: 'PoppinsMedium',
                               ),
                               softWrap: true,
                             ),
@@ -584,14 +584,14 @@ class _BerandaState extends State<Beranda> {
                 width: MediaQuery.of(context).size.width / 1,
                 height: 60,
                 padding: EdgeInsets.only(
-                  left: 15,
+                  left: 20,
                   right: 15,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "WAITING",
+                      "Waiting",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -606,14 +606,14 @@ class _BerandaState extends State<Beranda> {
                 width: MediaQuery.of(context).size.width / 1,
                 height: 60,
                 padding: EdgeInsets.only(
-                  left: 15,
+                  left: 20,
                   right: 15,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "PROGRES",
+                      "Progress",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -628,14 +628,14 @@ class _BerandaState extends State<Beranda> {
                 width: MediaQuery.of(context).size.width / 1,
                 height: 60,
                 padding: EdgeInsets.only(
-                  left: 15,
+                  left: 20,
                   right: 15,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "FINISH",
+                      "Finish",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
