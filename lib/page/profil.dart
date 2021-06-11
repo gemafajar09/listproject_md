@@ -9,6 +9,9 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
   var nama = '', id = '', jabatan = '', foto = '', alamat = '', telpon = '';
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   var images =
       'https://www.pngfind.com/pngs/m/470-4703547_icon-user-icon-hd-png-download.png';
 
@@ -16,6 +19,10 @@ class _ProfilState extends State<Profil> {
   void initState() {
     getPref();
     super.initState();
+  }
+
+  Future<Null> _refreshLocalGallery() async {
+    getPref();
   }
 
   void getPref() async {
@@ -29,7 +36,6 @@ class _ProfilState extends State<Profil> {
       id = preferences.getString("id");
       images = foto;
     });
-    print('alamat: ' + alamat);
   }
 
   void logout() async {
@@ -39,9 +45,11 @@ class _ProfilState extends State<Profil> {
     preferences.setString("jabatan", '');
     preferences.setString("alamat", '');
     preferences.setString("telpon", '');
-    preferences.setString("id", '');
+    preferences.setString("id", '0');
     preferences.commit();
-    setState(() {});
+    setState(() {
+      Navigator.pushReplacementNamed(context, '/');
+    });
   }
 
   Widget profilfoto() {
@@ -369,7 +377,10 @@ class _ProfilState extends State<Profil> {
           ],
         ),
         child: Center(
-          child: Icon(Icons.logout_outlined),
+          child: Text(
+            "Keluar",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
@@ -378,45 +389,49 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 4.5,
-                width: MediaQuery.of(context).size.width / 1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-                  color: Colors.blue[200],
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshLocalGallery,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height / 4.5,
+                  width: MediaQuery.of(context).size.width / 1,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
-                  ],
+                    color: Colors.blue[200],
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0x29000000),
+                        offset: Offset(0, 3),
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1,
-                height: MediaQuery.of(context).size.height / 1,
-                child: Column(
-                  children: [
-                    profilfoto(),
-                    SizedBox(height: 10),
-                    profilalamat(),
-                    SizedBox(height: 10),
-                    telponprofil(),
-                    SizedBox(height: 10),
-                    keluarsistem(),
-                  ],
+                Container(
+                  width: MediaQuery.of(context).size.width / 1,
+                  height: MediaQuery.of(context).size.height / 1,
+                  child: Column(
+                    children: [
+                      profilfoto(),
+                      SizedBox(height: 10),
+                      profilalamat(),
+                      SizedBox(height: 10),
+                      telponprofil(),
+                      SizedBox(height: 10),
+                      keluarsistem(),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-            ],
+                SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),
