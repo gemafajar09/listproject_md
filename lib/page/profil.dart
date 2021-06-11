@@ -45,7 +45,7 @@ class _ProfilState extends State<Profil> {
     preferences.setString("jabatan", '');
     preferences.setString("alamat", '');
     preferences.setString("telpon", '');
-    preferences.setString("id", '0');
+    preferences.setString("id", '');
     preferences.commit();
     setState(() {
       Navigator.pushReplacementNamed(context, '/');
