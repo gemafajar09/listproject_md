@@ -24,13 +24,12 @@ class _BerandaState extends State<Beranda> {
   Api api = Api();
   Timer timer;
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   @override
   void initState() {
     getPref();
-    blocproses.tampil('1');
-
-    blocwaiting.tampil('0');
-
     super.initState();
   }
 
@@ -56,8 +55,14 @@ class _BerandaState extends State<Beranda> {
       jabatan = preferences.getString("jabatan");
       id = preferences.getString("id");
       blocfinis.tampil(id);
+      blocproses.tampil(id);
+      blocwaiting.tampil('0');
       getbonus(id);
     });
+  }
+
+  Future<Null> _refreshLocalGallery() async {
+    getPref();
   }
 
   Widget appbar() {
@@ -186,7 +191,7 @@ class _BerandaState extends State<Beranda> {
             ),
             child: Center(
               child: Text(
-                "Jumlah Bonus Masih RP." + bonus,
+                "Jumlah Bonus RP." + bonus,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[600],
@@ -206,7 +211,7 @@ class _BerandaState extends State<Beranda> {
         right: 10,
       ),
       width: MediaQuery.of(context).size.width / 1,
-      height: 110,
+      height: 120,
       child: StreamBuilder(
         stream: blocwaiting.allwaiting,
         builder: (context, snapshot) {
@@ -226,7 +231,7 @@ class _BerandaState extends State<Beranda> {
                 itemCount: waitingdata.length,
                 itemBuilder: (context, i) {
                   return Container(
-                    height: 85,
+                    height: 110,
                     margin: EdgeInsets.only(left: 5, right: 5),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
@@ -337,7 +342,7 @@ class _BerandaState extends State<Beranda> {
         right: 10,
       ),
       width: MediaQuery.of(context).size.width / 1,
-      height: 110,
+      height: 120,
       child: StreamBuilder(
         stream: blocproses.allproses,
         builder: (context, snapshot) {
@@ -357,7 +362,7 @@ class _BerandaState extends State<Beranda> {
                 itemCount: prosesdata.length,
                 itemBuilder: (context, i) {
                   return Container(
-                    height: 120,
+                    height: 110,
                     margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
@@ -481,7 +486,7 @@ class _BerandaState extends State<Beranda> {
                 itemCount: finishdata.length,
                 itemBuilder: (context, i) {
                   return Container(
-                    height: 85,
+                    height: 110,
                     margin: EdgeInsets.only(left: 5, right: 5),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
@@ -588,80 +593,84 @@ class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              appbar(),
-              containeruser(),
-              Container(
-                width: MediaQuery.of(context).size.width / 1,
-                height: 60,
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 15,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Waiting",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.blue,
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshLocalGallery,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                appbar(),
+                containeruser(),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1,
+                  height: 60,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 15,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Waiting",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              waitingproject(),
-              Container(
-                width: MediaQuery.of(context).size.width / 1,
-                height: 60,
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 15,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Progress",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.blue,
+                waitingproject(),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1,
+                  height: 60,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 15,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Progress",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              progresproject(),
-              Container(
-                width: MediaQuery.of(context).size.width / 1,
-                height: 60,
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 15,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Finish",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.blue,
+                progresproject(),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1,
+                  height: 60,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 15,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Finish",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              historyproject(),
-              SizedBox(height: 10),
-            ],
+                historyproject(),
+                SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),

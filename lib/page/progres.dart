@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:listproject/bloc/blocproses.dart';
 import 'package:listproject/page/detailprogres/absensiprojek.dart';
 import 'package:listproject/page/detailprogres/progresdetail.dart';
@@ -15,6 +16,13 @@ class Progres extends StatefulWidget {
 class _ProgresState extends State<Progres> {
   Timer timer;
   var id;
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
+  Future<Null> _refreshLocalGallery() async {
+    getPref();
+  }
 
   @override
   void initState() {
@@ -39,38 +47,48 @@ class _ProgresState extends State<Progres> {
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width / 1,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "PROJECT",
+            "Project",
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
-              color: Colors.blue,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: Colors.blue,
+                fontFamily: 'PoppinsMedium'),
           ),
           Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width / 2.3,
-            child: TextFormField(
+            height: 40,
+            width: MediaQuery.of(context).size.width / 2.4,
+            child: TextField(
+              style: TextStyle(fontSize: 14.0, fontFamily: 'Poppins'),
+              autofocus: false,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: HexColor("#52555A"),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                filled: true,
+                hintStyle: TextStyle(
+                    color: HexColor("#52555A"), fontFamily: 'PoppinsMedium'),
+                contentPadding: const EdgeInsets.all(10),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(25.7),
                 ),
               ),
             ),
           ),
           IconButton(
+            splashRadius: 20,
             icon: Icon(
               Icons.notifications_none_sharp,
               size: 30,
-              color: Colors.grey,
+              color: Colors.blue,
             ),
             onPressed: () {},
           )
@@ -266,13 +284,17 @@ class _ProgresState extends State<Progres> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              appbar(),
-              progresproject(),
-            ],
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshLocalGallery,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                appbar(),
+                progresproject(),
+              ],
+            ),
           ),
         ),
       ),

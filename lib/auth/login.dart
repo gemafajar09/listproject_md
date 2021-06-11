@@ -87,7 +87,7 @@ class _LoginState extends State<Login> {
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      if (preferences.getString("id") != null) {
+      if (preferences.getString("id") != '0') {
         Navigator.pushReplacementNamed(context, '/splash');
       }
     });
@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
   Widget header() {
     return Container(
       width: MediaQuery.of(context).size.width / 1,
-      height: MediaQuery.of(context).size.height / 2,
+      height: MediaQuery.of(context).size.height / 1,
       decoration: BoxDecoration(
         color: Colors.white,
       ),
@@ -114,8 +114,8 @@ class _LoginState extends State<Login> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: Lottie.asset('asset/login.json'),
+            width: MediaQuery.of(context).size.width / 1.3,
+            child: Lottie.asset('asset/logins.json'),
           ),
         ],
       ),
@@ -235,22 +235,13 @@ class _LoginState extends State<Login> {
                   width: MediaQuery.of(context).size.width / 1,
                   padding: EdgeInsets.only(left: 20, right: 20),
                   margin: EdgeInsets.only(
-                    top: tinggi / 2.4,
+                    top: tinggi / 3,
                   ),
                   color: Colors.white,
                   height: MediaQuery.of(context).size.height / 2,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // SizedBox(height: 20),
-                      // Text(
-                      //   "LOGIN",
-                      //   style: TextStyle(
-                      //     color: Colors.black,
-                      //     fontSize: 22,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
                       SizedBox(height: 40),
                       _username(),
                       SizedBox(height: 20),

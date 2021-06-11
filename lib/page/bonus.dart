@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:listproject/bloc/blocbonus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,10 +12,17 @@ class Bonus extends StatefulWidget {
 class _BonusState extends State<Bonus> {
   var id;
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   @override
   void initState() {
     getPref();
     super.initState();
+  }
+
+  Future<Null> _refreshLocalGallery() async {
+    getPref();
   }
 
   void getPref() async {
@@ -29,38 +37,48 @@ class _BonusState extends State<Bonus> {
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width / 1,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "PROJECT",
+            "Project",
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
-              color: Colors.blue,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: Colors.blue,
+                fontFamily: 'PoppinsMedium'),
           ),
           Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width / 2.3,
-            child: TextFormField(
+            height: 40,
+            width: MediaQuery.of(context).size.width / 2.4,
+            child: TextField(
+              style: TextStyle(fontSize: 14.0, fontFamily: 'Poppins'),
+              autofocus: false,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: HexColor("#52555A"),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                filled: true,
+                hintStyle: TextStyle(
+                    color: HexColor("#52555A"), fontFamily: 'PoppinsMedium'),
+                contentPadding: const EdgeInsets.all(10),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(25.7),
                 ),
               ),
             ),
           ),
           IconButton(
+            splashRadius: 20,
             icon: Icon(
               Icons.notifications_none_sharp,
               size: 30,
-              color: Colors.grey,
+              color: Colors.blue,
             ),
             onPressed: () {},
           )
@@ -234,13 +252,17 @@ class _BonusState extends State<Bonus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              appbar(),
-              bonusprojek(),
-            ],
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshLocalGallery,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                appbar(),
+                bonusprojek(),
+              ],
+            ),
           ),
         ),
       ),

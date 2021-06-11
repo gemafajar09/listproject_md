@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:listproject/bloc/blocwaiting.dart';
 import 'package:listproject/page/detailwaiting/waitingdetail.dart';
 import 'package:lottie/lottie.dart';
@@ -12,6 +13,13 @@ class Waiting extends StatefulWidget {
 
 class _WaitingState extends State<Waiting> {
   Timer timer;
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
+  Future<Null> _refreshLocalGallery() async {
+    blocwaiting.tampil('0');
+  }
 
   @override
   void initState() {
@@ -28,38 +36,48 @@ class _WaitingState extends State<Waiting> {
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width / 1,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "PROJECT",
+            "Project",
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
-              color: Colors.blue,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: Colors.blue,
+                fontFamily: 'PoppinsMedium'),
           ),
           Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width / 2.3,
-            child: TextFormField(
+            height: 40,
+            width: MediaQuery.of(context).size.width / 2.4,
+            child: TextField(
+              style: TextStyle(fontSize: 14.0, fontFamily: 'Poppins'),
+              autofocus: false,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: HexColor("#52555A"),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                filled: true,
+                hintStyle: TextStyle(
+                    color: HexColor("#52555A"), fontFamily: 'PoppinsMedium'),
+                contentPadding: const EdgeInsets.all(10),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(25.7),
                 ),
               ),
             ),
           ),
           IconButton(
+            splashRadius: 20,
             icon: Icon(
               Icons.notifications_none_sharp,
               size: 30,
-              color: Colors.grey,
+              color: Colors.blue,
             ),
             onPressed: () {},
           )
@@ -95,7 +113,7 @@ class _WaitingState extends State<Waiting> {
                 itemBuilder: (context, i) {
                   return Container(
                     height: 110,
-                    margin: EdgeInsets.only(left: 5, right: 5),
+                    margin: EdgeInsets.only(left: 5, right: 5, top: 5),
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -236,13 +254,17 @@ class _WaitingState extends State<Waiting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              appbar(),
-              waitingproject(),
-            ],
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshLocalGallery,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                appbar(),
+                waitingproject(),
+              ],
+            ),
           ),
         ),
       ),
