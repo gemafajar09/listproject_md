@@ -29,7 +29,7 @@ class _BonusState extends State<Bonus> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       id = preferences.getString("id");
-      blocbonus.tampil(id.toString());
+      blocbonus.tampil(id);
     });
   }
 

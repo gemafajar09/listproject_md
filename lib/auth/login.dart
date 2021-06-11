@@ -87,7 +87,7 @@ class _LoginState extends State<Login> {
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      if (preferences.getString("id") != '0') {
+      if (preferences.getString("id") != null) {
         Navigator.pushReplacementNamed(context, '/splash');
       }
     });
