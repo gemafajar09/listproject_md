@@ -16,8 +16,9 @@ class Repository {
   // selesaikan projek
   Future selesaikanprojek(String idProject) => api.selesaikanprojek(idProject);
   // simpan timeline
-  Future simpantimeline(String idProject, String idUser, String status) =>
-      api.timelinesimpan(idProject, idUser, status);
+  Future simpantimeline(
+          String idProject, String idUser, String status, String keterangan) =>
+      api.timelinesimpan(idProject, idUser, status, keterangan);
   // show timeline
   Future<List<Timelineprojek>> showtimeline(String idUser, String idProject) =>
       api.gettimeline(idUser, idProject);
@@ -30,6 +31,9 @@ class Repository {
   // simpan data projek yang di kerjakan
   Future simpanprojekyangdikerjakan(String idProject, String idUser) =>
       api.kerjakanprojek(idProject, idUser);
+  // add team projek
+  Future tambahteam(String idProject, String namateam) =>
+      api.addteam(idProject, namateam);
   // ambil data projek bonus
   Future<List<Bonusmodel>> getbonus(String id) => api.bonusdetail(id);
 }

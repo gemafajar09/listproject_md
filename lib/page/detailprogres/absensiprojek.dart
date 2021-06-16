@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:listproject/bloc/bloctimeline.dart';
@@ -19,8 +17,16 @@ class _AbsensiprojekState extends State<Absensiprojek> {
   var tanggal;
   var iduser = '0';
   var idproject = '0';
+  var pengecekan = false;
+  TextEditingController keterangan = TextEditingController();
   Projekproses model;
   Timer timer;
+
+  addizin() {
+    setState(() {
+      pengecekan = !pengecekan;
+    });
+  }
 
   @override
   void initState() {
@@ -54,34 +60,108 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         textColor: Colors.white);
   }
 
-  Widget tanggalabsen() {
-    return DateTimePicker(
-      type: DateTimePickerType.date,
-      dateMask: 'yyyy-MM-d',
-      initialValue: DateTime.now().toString(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      icon: Icon(Icons.event),
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
+  Widget keteranganizin() {
+    if (pengecekan == true) {
+      return Container(
+        margin: EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width / 1,
+        height: MediaQuery.of(context).size.height / 3.5,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
+          color: Colors.blue[100],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x29000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
         ),
-      ),
-      dateLabelText: 'Date',
-      selectableDayPredicate: (date) {
-        // Disable weekend days to select from the calendar
-        if (date.weekday == 6 || date.weekday == 7) {
-          return false;
-        }
-
-        return true;
-      },
-      onChanged: (val) {
-        setState(() {
-          tanggal = val.toString();
-        });
-      },
-    );
+        child: Container(
+          margin: EdgeInsets.only(
+            right: 5,
+          ),
+          width: MediaQuery.of(context).size.width / 1,
+          height: MediaQuery.of(context).size.height / 3,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+          ),
+          child: Column(children: [
+            Center(
+              child: Text(
+                "Tambah Keterangan Izin",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              width: MediaQuery.of(context).size.width / 1,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: TextField(
+                controller: keterangan,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+              ),
+            ),
+            SizedBox(height: 10),
+            FlatButton(
+              color: Colors.transparent,
+              height: 50,
+              onPressed: () {
+                setState(() {
+                  bloctimeline.addtimeline(
+                      idproject, iduser, '1', keterangan.text);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => super.widget));
+                });
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    stops: [
+                      0.2,
+                      0.4,
+                    ],
+                    colors: [
+                      Colors.indigo[200],
+                      Colors.blue[100],
+                    ],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x29000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child:
+                      Text("Tambahkan", style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+          ]),
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget statusprojek() {
@@ -91,7 +171,7 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         InkWell(
           onTap: () {
             setState(() {
-              bloctimeline.addtimeline(idproject, iduser, '0');
+              bloctimeline.addtimeline(idproject, iduser, '0', '');
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -120,13 +200,7 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         ),
         InkWell(
           onTap: () {
-            setState(() {
-              bloctimeline.addtimeline(idproject, iduser, '1');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => super.widget));
-            });
+            addizin();
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 4.5,
@@ -151,7 +225,7 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         InkWell(
           onTap: () {
             setState(() {
-              bloctimeline.addtimeline(idproject, iduser, '2');
+              bloctimeline.addtimeline(idproject, iduser, '2', '');
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -181,7 +255,7 @@ class _AbsensiprojekState extends State<Absensiprojek> {
         InkWell(
           onTap: () {
             setState(() {
-              bloctimeline.addtimeline(idproject, iduser, '3');
+              bloctimeline.addtimeline(idproject, iduser, '3', '');
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -403,6 +477,10 @@ class _AbsensiprojekState extends State<Absensiprojek> {
                 ),
                 child: statusprojek(),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              keteranganizin(),
               SizedBox(
                 height: 10,
               ),

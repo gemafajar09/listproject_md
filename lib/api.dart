@@ -9,7 +9,7 @@ import 'package:listproject/model/timelineprojek.dart';
 import 'package:listproject/model/bonusmodel.dart';
 
 class Api {
-  static const api = "http://projek.jualfotocopypadang.com/api";
+  static const api = "https://projek.gemilangmitrasukses.com/api";
 
   Future<List<Projekproses>> projekproses(id) async {
     List<Projekproses> projeklist = [];
@@ -102,16 +102,17 @@ class Api {
     }
   }
 
-  Future timelinesimpan(String idProject, String idUser, String status) async {
+  Future timelinesimpan(
+      String idProject, String idUser, String status, String keterangan) async {
     final res = await http.post('$api/projek-timeline', body: {
       'id_project': idProject,
       'id_user': idUser,
       'status': status,
+      'keterangan': keterangan,
     });
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       var msg = data['pesan'];
-      print(msg);
     }
   }
 
@@ -166,7 +167,6 @@ class Api {
   }
 
   Future kerjakanprojek(String idProject, String idUser) async {
-    print('id_user:' + idUser + "id_p:" + idProject);
     final res = await http.post('$api/proses-waiting', body: {
       'id_project': idProject,
       'id_user': idUser,
@@ -174,7 +174,6 @@ class Api {
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       var msg = data['pesan'];
-      print(msg);
     }
   }
 
@@ -185,7 +184,17 @@ class Api {
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       var msg = data['pesan'];
-      print(msg);
+    }
+  }
+
+  Future addteam(String idProject, String namateam) async {
+    final res = await http.post('$api/projek-add-team', body: {
+      'id_project': idProject,
+      'namateam': namateam,
+    });
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      var msg = data['pesan'];
     }
   }
 }

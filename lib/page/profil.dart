@@ -40,12 +40,12 @@ class _ProfilState extends State<Profil> {
 
   void logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString("foto", '');
-    preferences.setString("nama", '');
-    preferences.setString("jabatan", '');
-    preferences.setString("alamat", '');
-    preferences.setString("telpon", '');
-    preferences.setString("id", '');
+    preferences.setString("foto", null);
+    preferences.setString("nama", null);
+    preferences.setString("jabatan", null);
+    preferences.setString("alamat", null);
+    preferences.setString("telpon", null);
+    preferences.setString("id", null);
     preferences.commit();
     setState(() {
       Navigator.pushReplacementNamed(context, '/');

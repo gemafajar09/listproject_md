@@ -8,8 +8,8 @@ class Bloctimeline {
 
   Observable<List<Timelineprojek>> get alltimeline => _gettimeline.stream;
 
-  addtimeline(_idprojek, _iduser, _status) {
-    repository.simpantimeline(_idprojek, _iduser, _status);
+  addtimeline(_idprojek, _iduser, _status, _keteranagn) {
+    repository.simpantimeline(_idprojek, _iduser, _status, _keteranagn);
   }
 
   hapustimeline(_idTimeline) {

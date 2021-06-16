@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:listproject/api.dart';
 import 'package:listproject/bloc/blocproses.dart';
@@ -6,6 +8,7 @@ import 'package:listproject/model/progresfitur.dart';
 import 'package:listproject/page/home.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Progresdetail extends StatefulWidget {
   Progresdetail({Key key, this.model}) : super(key: key);
@@ -18,18 +21,47 @@ class _ProgresdetailState extends State<Progresdetail> {
   Projekproses model;
   Api api = Api();
   bool isSwitched = false;
+  bool pengecekan = false;
+  var id;
+  String pilihan;
 
-  updatelist(ids, statuss) async {
+  List satuan = [];
+
+  void getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      id = preferences.getString("id");
+    });
+  }
+
+  Future<List> getprogrammer() async {
+    final res = await http.get(Api.api + "/programmer-all");
+    if (res.statusCode == 200) {
+      setState(() {
+        satuan = jsonDecode(res.body);
+      });
+    }
+  }
+
+  updatelist(ids, statuss, id_user) async {
     final res = await http.post(Api.api + "/projek-fitur-update",
-        body: {'id': ids, 'status': statuss});
+        body: {'id': ids, 'status': statuss, 'id_user': id_user});
     if (res.statusCode == 200) {
       setState(() {});
     }
   }
 
+  addteam() {
+    setState(() {
+      pengecekan = !pengecekan;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getprogrammer();
+    getPref();
     model = widget.model;
   }
 
@@ -37,7 +69,7 @@ class _ProgresdetailState extends State<Progresdetail> {
     return Container(
       margin: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width / 1,
-      height: MediaQuery.of(context).size.height / 3.2,
+      height: MediaQuery.of(context).size.height / 2.8,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.blue[100],
@@ -55,7 +87,7 @@ class _ProgresdetailState extends State<Progresdetail> {
             margin: EdgeInsets.only(right: 5),
             padding: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 1,
-            height: MediaQuery.of(context).size.height / 3.2,
+            height: MediaQuery.of(context).size.height / 2.8,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               gradient: LinearGradient(
@@ -181,6 +213,46 @@ class _ProgresdetailState extends State<Progresdetail> {
             ),
           ),
           Positioned(
+            bottom: 10,
+            left: 0,
+            child: Container(
+              height: 30,
+              width: MediaQuery.of(context).size.width / 2.5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                color: Colors.transparent,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        addteam();
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      "Tambah Team",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
             top: 0,
             right: 0,
             child: Hero(
@@ -196,6 +268,128 @@ class _ProgresdetailState extends State<Progresdetail> {
         ],
       ),
     );
+  }
+
+  Widget addrekan() {
+    if (pengecekan == true) {
+      return Container(
+        margin: EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width / 1,
+        height: MediaQuery.of(context).size.height / 3.5,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.blue[100],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x29000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Container(
+          margin: EdgeInsets.only(
+            right: 5,
+          ),
+          width: MediaQuery.of(context).size.width / 1,
+          height: MediaQuery.of(context).size.height / 3.5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+          ),
+          child: Column(children: [
+            Center(
+              child: Text(
+                "Tambah Team",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              width: MediaQuery.of(context).size.width / 1,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(20),
+                    ),
+                  ),
+                ),
+                hint: Text('-PILIH REKAN-'),
+                value: pilihan,
+                onChanged: (value) {
+                  setState(() {
+                    pilihan = value;
+                  });
+                },
+                items: satuan.map((item) {
+                  return DropdownMenuItem(
+                    child: new Text(item),
+                    value: item,
+                  );
+                }).toList(),
+              ),
+            ),
+            SizedBox(height: 10),
+            FlatButton(
+              color: Colors.transparent,
+              height: 50,
+              onPressed: () {
+                if (pilihan != '') {
+                  setState(() {
+                    blocproses.tambahteams(model.idProject, pilihan);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => super.widget));
+                  });
+                }
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    stops: [
+                      0.2,
+                      0.4,
+                    ],
+                    colors: [
+                      Colors.indigo[200],
+                      Colors.blue[100],
+                    ],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x29000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child:
+                      Text("Tambahkan", style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+          ]),
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget fiturprojek() {
@@ -277,7 +471,7 @@ class _ProgresdetailState extends State<Progresdetail> {
                           onChanged: (value) {
                             setState(() {
                               updatelist(datalist[no].idFitur.toString(),
-                                  datalist[no].status.toString());
+                                  datalist[no].status.toString(), id);
                             });
                           },
                           activeTrackColor: Colors.blue,
@@ -312,6 +506,7 @@ class _ProgresdetailState extends State<Progresdetail> {
               Column(
                 children: [
                   header(),
+                  addrekan(),
                   fiturprojek(),
                 ],
               ),
