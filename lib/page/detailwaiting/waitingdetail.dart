@@ -38,7 +38,7 @@ class _WaitingdetailState extends State<Waitingdetail> {
     return Container(
       margin: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width / 1,
-      height: MediaQuery.of(context).size.height / 3.2,
+      height: MediaQuery.of(context).size.height / 2.8,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.blue[100],
@@ -56,7 +56,7 @@ class _WaitingdetailState extends State<Waitingdetail> {
             margin: EdgeInsets.only(right: 5),
             padding: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 1,
-            height: MediaQuery.of(context).size.height / 3.2,
+            height: MediaQuery.of(context).size.height / 2.8,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               gradient: LinearGradient(

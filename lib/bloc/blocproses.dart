@@ -19,6 +19,11 @@ class Blocproses {
     repository.selesaikanprojek(idProject);
   }
 
+  // tambah team projek
+  tambahteams(String idProject, String namateam) {
+    repository.tambahteam(idProject, namateam);
+  }
+
   // matikan aksi
   dispose() {
     _getproses.close();

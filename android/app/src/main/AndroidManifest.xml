@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:usesCleartextTraffic="true"
-        android:label="listproject"
+        android:label="Daily Projek"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
